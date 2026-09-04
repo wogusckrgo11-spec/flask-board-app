@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+{% block title %}{{ '글 수정' if post else '글 작성' }}{% endblock %}
+{% block body %}
+  <form class="card" method="post" action="{{ action }}">
+    <label for="title">제목</label>
+    <input id="title" name="title" maxlength="200" required
+           value="{{ post.title if post else '' }}">
+
+    {% if not post %}
+      <label for="author">작성자</label>
+      <input id="author" name="author" maxlength="50" required>
+    {% endif %}
+
+    <label for="content">내용</label>
+    <textarea id="content" name="content" required>{{ post.content if post else '' }}</textarea>
+
+    <label for="password">비밀번호</label>
+    <input id="password" name="password" type="password" required
+           placeholder="{{ '작성 시 입력한 비밀번호' if post else '수정·삭제할 때 사용합니다' }}">
+
+    <div class="actions">
+      <button class="btn" type="submit">{{ '수정하기' if post else '등록하기' }}</button>
+      <a class="btn ghost"
+         href="{{ url_for('show_post', post_id=post.id) if post else url_for('index') }}">취소</a>
+    </div>
+  </form>
+{% endblock %}

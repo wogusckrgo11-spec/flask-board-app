@@ -1,0 +1,31 @@
+# gunicorn으로 Flask 앱을 상시 구동하는 systemd 유닛
+# 설치 위치: /etc/systemd/system/board-app.service
+
+[Unit]
+Description=Board App (Flask + gunicorn)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=ec2-user
+Group=ec2-user
+WorkingDirectory=/opt/board-app
+
+# DB 접속 정보는 이 파일에서만 읽는다 (소스코드·git에 비밀번호를 두지 않기 위함)
+EnvironmentFile=/etc/board-app.env
+
+# 127.0.0.1에만 바인딩한다. 외부 노출은 nginx가 담당하므로
+# 8000 포트는 보안그룹에서 열 필요가 없다.
+ExecStart=/opt/board-app/.venv/bin/gunicorn \
+  --workers 2 \
+  --bind 127.0.0.1:8000 \
+  --access-logfile - \
+  --error-logfile - \
+  app:app
+
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target
