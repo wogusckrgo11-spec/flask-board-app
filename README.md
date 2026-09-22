@@ -223,4 +223,4 @@ curl http://localhost/health
 
 gunicorn은 `127.0.0.1:8000` 에만 바인딩하므로 8000 포트를 외부에 열 필요가 없습니다. DB 비밀번호는 `/etc/board-app.env`(권한 600)에만 두고 systemd의 `EnvironmentFile` 로 주입합니다.
 
-> 이 앱은 AWS 2-tier 인프라 실습(퍼블릭 서브넷 웹서버 + 프라이빗 서브넷 DB서버)에서 배포 대상으로 쓰였습니다. 인프라 구축 과정은 별도 저장소에 정리되어 있습니다.
+> 이 앱은 AWS 2-tier 인프라 실습(퍼블릭 서브넷 웹서버 + 프라이빗 서브넷 DB서버)에서 배포 대상으로 쓰였습니다. 인프라 구축 과정은 **[aws-2tier-web-db](https://github.com/wogusckrgo11-spec/aws-2tier-web-db)** 에 단계별로 정리되어 있습니다.
